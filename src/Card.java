@@ -1,6 +1,9 @@
 /**
+ * @author Jeffery Lee
  * 
- * @author jeffery
+ *         This class holds our our Card object. Each Card represents a card
+ *         with a suit and value. In the game of blackjack, the suits are
+ *         unimportant, the value is the focus of the game.
  * 
  *
  */
@@ -16,10 +19,28 @@ public class Card {
 		
 	}
 	
+	/*
+	 * @param null
+	 * 
+	 * @return int
+	 * 
+	 * Returns the numeric value of this Card. The cards 2-10 will be represented as
+	 * 2 - 10. All face cards will be represented as 10. Aces will be represented as
+	 * 1.
+	 * 
+	 */
 	public int getNumber() {
 		return this.cardValue;
 	}
 	
+	/*
+	 * @param null
+	 * 
+	 * @return String
+	 * 
+	 * Returns the lexical representation of a card for printing purposes.
+	 * 
+	 */
 	public String toString() {
 		
 		String value = "";

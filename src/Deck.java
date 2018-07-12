@@ -1,3 +1,11 @@
+/**
+ * @author Jeffery Lee
+ * 
+ * This class represents the physical deck that contains all the Card objects as an array.
+ * 
+ *
+ */
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -38,6 +46,15 @@ public class Deck {
 		Collections.shuffle(Arrays.asList(this.cards));
 	}
 	
+	/*
+	 * @param null
+	 * 
+	 * @return Card
+	 * 
+	 * Returns the next card from the deck. Will subtract the card from the deck and
+	 * lower the total number of cards by 1.
+	 * 
+	 */
 	public Card dealNextCard() {
 		
 		Card topCard = this.cards[0];
@@ -50,6 +67,16 @@ public class Deck {
 		return topCard;
 	}
 	
+	// TODO: This method will probably be better served in the future returning a
+	// String instead of printing to console.
+	/*
+	 * @param null
+	 * 
+	 * @return null
+	 * 
+	 * Prints the entire deck in its' current state.
+	 * 
+	 */
 	public void printDeck() {
 
 		for (int i = 0; i < this.cards.length; i++) {
@@ -58,6 +85,16 @@ public class Deck {
 
 	}
 
+	// TODO: This method will probably be better served in the future returning a
+	// String instead of printing to console.
+	/*
+	 * @param int
+	 * 
+	 * @return null
+	 * 
+	 * Prints the desired number of cards from the deck in its' current state.
+	 * 
+	 */
 	public void printDeck(int numToPrint) {
 		
 		for(int i = 0; i < numToPrint; i++) {
