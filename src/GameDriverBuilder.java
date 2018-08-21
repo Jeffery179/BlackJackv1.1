@@ -11,7 +11,7 @@ public class GameDriverBuilder {
 		Scanner scanner = new Scanner(System.in);
 		Deck deck = new Deck(7, true);
 
-		Player me = new Player("Jeff");
+		Player me = new Player("Player 1");
 		Dealer dealer = new Dealer("House");
 
 		boolean continueGame = true;
