@@ -10,6 +10,7 @@ public class Player extends User {
 		this.hand = new PlayerHand(firstCard, secondCard, false);
 
 		increaseHandCount();
+
 		increaseHandCount();
 
 	}
@@ -81,6 +82,7 @@ public class Player extends User {
 	public void addCard(Card nextCard) {
 
 		this.hand.addCard(nextCard);
+
 		increaseHandCount();
 
 	}

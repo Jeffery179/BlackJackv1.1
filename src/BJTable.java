@@ -32,7 +32,6 @@ public class BJTable extends JFrame {
 	private static JButton dealCardsBtn;
 	private static JLabel gameStatusLbl;
 
-
 	/* Components of the black jack game */
 	private static Deck deck = null;
 	private static Player player1 = null;
@@ -57,6 +56,7 @@ public class BJTable extends JFrame {
 		frame = new BJTable();
 
 		frame.setVisible(true);
+
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class BJTable extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 995, 619);
 		getContentPane().setLayout(null);
-		
+
 		dealerLabel = new JLabel("Dealer");
 		dealerLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		dealerLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -88,14 +88,14 @@ public class BJTable extends JFrame {
 		stayButton = new JButton("Stand");
 		stayButton.setBounds(825, 262, 115, 29);
 		getContentPane().add(stayButton);
-		
-		splitButton = new JButton("Split");
-		splitButton.setBounds(802, 428, 115, 29);
-		getContentPane().add(splitButton);
 
-		doubleDownButton = new JButton("Double");
-		doubleDownButton.setBounds(825, 486, 115, 29);
-		getContentPane().add(doubleDownButton);
+		// splitButton = new JButton("Split");
+		// splitButton.setBounds(802, 428, 115, 29);
+		// getContentPane().add(splitButton);
+		//
+		// doubleDownButton = new JButton("Double");
+		// doubleDownButton.setBounds(825, 486, 115, 29);
+		// getContentPane().add(doubleDownButton);
 
 		winsLabel = new JLabel("Wins");
 		winsLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -121,7 +121,7 @@ public class BJTable extends JFrame {
 		dealCardsBtn.setBounds(825, 124, 115, 29);
 		getContentPane().add(dealCardsBtn);
 
-		gameStatusLbl = new JLabel(".......");
+		gameStatusLbl = new JLabel("");
 		gameStatusLbl.setBounds(37, 13, 253, 25);
 		getContentPane().add(gameStatusLbl);
 
@@ -139,9 +139,9 @@ public class BJTable extends JFrame {
 		drawsLabel.setBounds(681, 17, 69, 20);
 		getContentPane().add(drawsLabel);
 
-		winCountLabel = new JLabel("0");
-		winCountLabel.setBounds(690, 45, 67, 25);
-		getContentPane().add(winCountLabel);
+		drawsCountlabel = new JLabel("0");
+		drawsCountlabel.setBounds(690, 45, 67, 25);
+		getContentPane().add(drawsCountlabel);
 
 	}
 
@@ -182,12 +182,15 @@ public class BJTable extends JFrame {
 
 		gameStatusLbl.setText("Player Turn"); // Next instruction
 
-		// hitButton = new JButton("Hit"); // Hit button
-		hitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				hit(); // When pressed, hit
-			}
-		});
+		if (hitButton.getActionListeners().length < 1) {
+			// hitButton = new JButton("Hit"); // Hit button
+			hitButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					hit(); // When pressed, hit
+					System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
+				}
+			});
+		}
 
 		frame.getContentPane().add(hitButton);
 		hitButton.requestFocus();
@@ -205,11 +208,16 @@ public class BJTable extends JFrame {
 
 	public static void hit() {
 
+		System.out.println("Hit was called!");
+
 		player1.addCard(deck.dealNextCard());
+
+		System.out.println(player1.getHand().toString(false));
 
 		updateCardVisuals();
 
 		checkPlayerStatus();
+
 
 	}
 
@@ -218,10 +226,6 @@ public class BJTable extends JFrame {
 		int playerScore = player1.getHand().getHandSum();
 
 		int dealerScore = dealer.getHandSum();
-
-		System.out.println(playerScore + " player score");
-
-		System.out.println(dealerScore + " dealer score");
 
 		// hit on soft 16
 		while (dealerScore < 17) {
@@ -234,7 +238,7 @@ public class BJTable extends JFrame {
 
 			gameStatusLbl.setText("Dealer busts, player wins!");
 			totalWins++;
-			winCountLabel.setText(String.valueOf(totalWins));
+			gameStatusLbl.setText(String.valueOf(totalWins));
 			// return GameResult.PLAYER_WINS;
 		} else if (dealerScore == playerScore) {
 
@@ -278,6 +282,8 @@ public class BJTable extends JFrame {
 
 		int dealerScore = dealer.getHandSum();
 
+		System.out.println("check player status: p1 score = " + playerScore);
+
 		if (playerScore == 21) {
 			// player hit blackjack:
 
@@ -288,6 +294,8 @@ public class BJTable extends JFrame {
 				totalDraws++;
 
 				drawsCountlabel.setText(String.valueOf(totalDraws));
+
+				hitButton.setEnabled(false);
 
 			} else {
 

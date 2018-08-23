@@ -13,6 +13,8 @@ public class Hand {
 		cards[numCardsInHand] = secondCard;
 		numCardsInHand++;
 		this.handDone = false;
+
+		System.out.println("added " + firstCard.toString() + " and " + secondCard.toString());
 	}
 
 	public Card[] getCards() {
@@ -40,9 +42,12 @@ public class Hand {
 	public int getNumCardsInHand() {
 		return numCardsInHand;
 	}
+
 	public void addCard(Card card) {
 		cards[numCardsInHand] = card;
 		numCardsInHand++;
+
+		System.out.println("added additional card " + card.toString());
 	}
 
 	/**
