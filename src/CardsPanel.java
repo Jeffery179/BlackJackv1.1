@@ -16,7 +16,7 @@ class CardsPanel extends JPanel {
 
 		int numCards = hand.getNumCardsInHand();
 
-		setBounds(left, top, 35 + numCards * (width + gap), height);
+		setBounds(left, top, 50 + numCards * (width + gap), height);
 		setLayout(null);
 		setOpaque(false); // for transparent background
 

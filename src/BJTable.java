@@ -48,6 +48,8 @@ public class BJTable extends JFrame {
 	private JPanel panel_2;
 	private JPanel panel_3;
 
+	private static Card dealerHiddenCard = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -170,9 +172,14 @@ public class BJTable extends JFrame {
 
 	public static void dealCards() {
 
+		player1.emptyHand();
+		dealer.emptyHand();
+
 		player1.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
-		dealer.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
+		dealerHiddenCard = deck.dealNextCard();
+		dealer.giveNewHand(deck.dealNextCard(), new FaceDownCard());
+		// dealer.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
 		dealCardsBtn.setEnabled(false);
 
@@ -187,7 +194,6 @@ public class BJTable extends JFrame {
 			hitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					hit(); // When pressed, hit
-					System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
 				}
 			});
 		}
@@ -196,11 +202,13 @@ public class BJTable extends JFrame {
 		hitButton.requestFocus();
 		hitButton.setEnabled(true);
 
-		stayButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				stand(); // When pressed, stand
-			}
-		});
+		if (stayButton.getActionListeners().length < 1) {
+			stayButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					stand(); // When pressed, stand
+				}
+			});
+		}
 		frame.getContentPane().add(stayButton);
 		stayButton.requestFocus();
 		stayButton.setEnabled(true);
@@ -223,44 +231,60 @@ public class BJTable extends JFrame {
 
 	public static void stand() {
 
+		// switch out the face down card with the hidden card in this class:
+
 		int playerScore = player1.getHand().getHandSum();
 
 		int dealerScore = dealer.getHandSum();
 
 		// hit on soft 16
 		while (dealerScore < 17) {
+
+			System.out.println("(player is standing): Dealer Score: " + dealerScore);
+
 			dealer.addCard(deck.dealNextCard());
 			dealerScore = dealer.getHandSum();
 			updateCardVisuals();
 		}
 
 		if (dealerScore > 21 && playerScore <= 21) {
-
 			gameStatusLbl.setText("Dealer busts, player wins!");
 			totalWins++;
-			gameStatusLbl.setText(String.valueOf(totalWins));
+			winCountLabel.setText(String.valueOf(totalWins));
 			// return GameResult.PLAYER_WINS;
+
+			System.out.println("Player won: wins = " + totalWins);
+
 		} else if (dealerScore == playerScore) {
 
 			gameStatusLbl.setText("Push!");
 			totalDraws++;
 			drawsCountlabel.setText(String.valueOf(totalDraws));
 			// return GameResult.PUSH;
+
+			System.out.println("TIE: ties = " + totalDraws);
+
 		} else if (dealerScore > playerScore) {
 			totalLosses++;
 			gameStatusLbl.setText("Dealer beats player, dealer wins!");
 			lossesCount.setText(String.valueOf(totalLosses));
 			// return GameResult.DEALER_WINS;
+
+			System.out.println("LOSS:  = " + totalLosses);
 		} else if (playerScore > dealerScore && playerScore <= 21) {
 			totalWins++;
 			winCountLabel.setText(String.valueOf(totalWins));
 			gameStatusLbl.setText("Player beats dealer, player wins!");
 			// return GameResult.PLAYER_WINS;
+
+			System.out.println("Player won: wins = " + totalWins);
+
 		} else {
 			// return GameResult.DEALER_WINS;
 			totalLosses++;
 			gameStatusLbl.setText("Dealer beats player");
 			lossesCount.setText(String.valueOf(totalLosses));
+			System.out.println("LOSS:  = " + totalLosses);
 		}
 
 		hitButton.setEnabled(false);
@@ -273,8 +297,8 @@ public class BJTable extends JFrame {
 	}
 
 	/*
-	 * runs whenever a player is dealt card(s), to check for blackjack ands busts;
-	 * stops game on either of those scenarios
+	 * runs whenever a player is dealt card(s), to check for player/dealer blackjack
+	 * ands busts; stops game on either of those scenarios
 	 */
 	public static void checkPlayerStatus() {
 
@@ -284,20 +308,29 @@ public class BJTable extends JFrame {
 
 		System.out.println("check player status: p1 score = " + playerScore);
 
+		if (dealerScore == 21 && playerScore == 21) {
+
+			gameStatusLbl.setText("Push!");
+
+			totalDraws++;
+
+			drawsCountlabel.setText(String.valueOf(totalDraws));
+
+		}
+
+		if (dealerScore == 21) {
+
+			gameStatusLbl.setText("Dealer Hits Blackjack!");
+
+			totalDraws++;
+
+			drawsCountlabel.setText(String.valueOf(totalDraws));
+
+		}
+
 		if (playerScore == 21) {
 			// player hit blackjack:
 
-			if (dealerScore == 21) {
-
-				gameStatusLbl.setText("Push!");
-
-				totalDraws++;
-
-				drawsCountlabel.setText(String.valueOf(totalDraws));
-
-				hitButton.setEnabled(false);
-
-			} else {
 
 				gameStatusLbl.setText("Player hits blackjack! Winner!");
 
@@ -305,7 +338,7 @@ public class BJTable extends JFrame {
 
 				winCountLabel.setText(String.valueOf(totalWins));
 
-			}
+
 		} else if (playerScore > 21) {
 			// player busted
 

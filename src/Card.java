@@ -12,6 +12,11 @@ public class Card {
 	private Suit cardSuit;
 	private int cardValue;
 	
+	public Card() {
+		this.cardSuit = null;
+		this.cardValue = 0;
+	}
+
 	public Card(Suit suit, int value) {
 		
 		this.cardSuit = suit;

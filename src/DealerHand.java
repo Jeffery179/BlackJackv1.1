@@ -34,7 +34,7 @@ public class DealerHand extends Hand {
 
 			}
 
-			if (hasAce && hardSum == 17) {
+			if (hasAce) {
 				softSum = hardSum;
 				for (int c = 0; c < numAces; c++) {
 					softSum = softSum - 10;

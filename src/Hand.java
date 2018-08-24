@@ -39,6 +39,11 @@ public class Hand {
 
 	}
 
+	public void clearHand() {
+		numCardsInHand = 0;
+		cards = new Card[10];
+	}
+
 	public int getNumCardsInHand() {
 		return numCardsInHand;
 	}
