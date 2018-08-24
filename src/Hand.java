@@ -21,6 +21,14 @@ public class Hand {
 		return cards;
 	}
 
+	// because we are always adding the "face down" card 2nd, we know the card to
+	// remove is the 2nd one
+	public void setCardInHand(Card inputCard) {
+
+		cards[1] = inputCard;
+
+	}
+
 	/*
 	 * Returns true if the hand has black jack: Ace and 10
 	 * 

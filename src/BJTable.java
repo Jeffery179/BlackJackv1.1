@@ -178,6 +178,8 @@ public class BJTable extends JFrame {
 		player1.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
 		dealerHiddenCard = deck.dealNextCard();
+		System.out.println(dealerHiddenCard.toString());
+
 		dealer.giveNewHand(deck.dealNextCard(), new FaceDownCard());
 		// dealer.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
@@ -231,7 +233,20 @@ public class BJTable extends JFrame {
 
 	public static void stand() {
 
+		System.out.println("stand method: ");
+
+		System.out.println(dealer.getHands().toString(false));
+
 		// switch out the face down card with the hidden card in this class:
+		dealer.getHands().setCardInHand(dealerHiddenCard);
+
+		gameStatusLbl.setText("Dealer reveals face down card!");
+
+		updateCardVisuals();
+
+		frame.repaint();
+
+		System.out.println(dealer.getHands().toString(false));
 
 		int playerScore = player1.getHand().getHandSum();
 
