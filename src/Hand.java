@@ -121,6 +121,29 @@ public class Hand {
 	}
 
 	/*
+	 * Returns true if this hand contains an Ace (soft hand)
+	 * 
+	 * @param none
+	 * 
+	 * @return boolean
+	 * 
+	 */
+
+	public boolean hasAce() {
+
+		for (int i = 0; i < this.numCardsInHand; i++) {
+
+			int cardNum = this.cards[i].getNumber();
+
+			if (cardNum == 1) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/*
 	 * Returns the value of this hand.
 	 * 
 	 * @param none

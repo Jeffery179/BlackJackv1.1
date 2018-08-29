@@ -13,6 +13,8 @@ public class BJTable extends JFrame {
 
 	private static JFrame frame = null;
 
+	public static int handsPlayed = 0;
+
 	/* All the components below belong to the main frame */
 	private static JLabel dealerLabel;
 	private static JPanel panel;
@@ -31,6 +33,8 @@ public class BJTable extends JFrame {
 	private static JButton newGameBtn;
 	private static JButton dealCardsBtn;
 	private static JLabel gameStatusLbl;
+	private static JButton helpButton;
+	private static JLabel hintLabel;
 
 	/* Components of the black jack game */
 	private static Deck deck = null;
@@ -50,6 +54,12 @@ public class BJTable extends JFrame {
 
 	private static Card dealerHiddenCard = null;
 
+	public static CSVUtils csvUtils = new CSVUtils();
+
+	public static boolean usedHint = false;
+
+	public static String fileLocation = "";
+
 	/**
 	 * Launch the application.
 	 */
@@ -65,7 +75,7 @@ public class BJTable extends JFrame {
 	 * Create the frame.
 	 */
 	public BJTable() {
-		getContentPane().setBackground(new Color(95, 158, 160));
+		getContentPane().setBackground(new Color(143, 188, 143));
 		getContentPane().setForeground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 995, 619);
@@ -84,11 +94,11 @@ public class BJTable extends JFrame {
 		getContentPane().add(playerLabel);
 
 		hitButton = new JButton("Hit");
-		hitButton.setBounds(825, 200, 115, 29);
+		hitButton.setBounds(843, 152, 115, 29);
 		getContentPane().add(hitButton);
 
 		stayButton = new JButton("Stand");
-		stayButton.setBounds(825, 262, 115, 29);
+		stayButton.setBounds(843, 211, 115, 29);
 		getContentPane().add(stayButton);
 
 		// splitButton = new JButton("Split");
@@ -99,14 +109,14 @@ public class BJTable extends JFrame {
 		// doubleDownButton.setBounds(825, 486, 115, 29);
 		// getContentPane().add(doubleDownButton);
 
-		winsLabel = new JLabel("Wins");
-		winsLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		winsLabel = new JLabel("Win");
+		winsLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		winsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		winsLabel.setBounds(522, 16, 69, 20);
 		getContentPane().add(winsLabel);
 
-		lossesLabel = new JLabel("Losses");
-		lossesLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lossesLabel = new JLabel("Loss");
+		lossesLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lossesLabel.setBounds(606, 17, 69, 20);
 		getContentPane().add(lossesLabel);
 
@@ -116,34 +126,47 @@ public class BJTable extends JFrame {
 				startNewGame();
 			}
 		});
-		newGameBtn.setBounds(825, 39, 115, 29);
+		newGameBtn.setBounds(843, 14, 115, 29);
 		getContentPane().add(newGameBtn);
 
 		dealCardsBtn = new JButton("Deal Cards");
-		dealCardsBtn.setBounds(825, 124, 115, 29);
+		dealCardsBtn.setBounds(843, 66, 115, 29);
 		getContentPane().add(dealCardsBtn);
 
 		gameStatusLbl = new JLabel("");
-		gameStatusLbl.setBounds(37, 13, 253, 25);
+		gameStatusLbl.setFont(new Font("Lucida Console", Font.BOLD, 21));
+		gameStatusLbl.setBounds(37, 13, 391, 25);
 		getContentPane().add(gameStatusLbl);
 
 		winCountLabel = new JLabel("0");
+		winCountLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		winCountLabel.setBounds(544, 43, 47, 25);
 		getContentPane().add(winCountLabel);
 
 		lossesCount = new JLabel("0");
+		lossesCount.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lossesCount.setBounds(616, 43, 59, 25);
 		getContentPane().add(lossesCount);
 
-		drawsLabel = new JLabel("Pushes");
+		drawsLabel = new JLabel("Push");
 		drawsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		drawsLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		drawsLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		drawsLabel.setBounds(681, 17, 69, 20);
 		getContentPane().add(drawsLabel);
 
 		drawsCountlabel = new JLabel("0");
+		drawsCountlabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		drawsCountlabel.setBounds(690, 45, 67, 25);
 		getContentPane().add(drawsCountlabel);
+
+		hintLabel = new JLabel("click for help");
+		hintLabel.setFont(new Font("Tahoma", Font.BOLD, 23));
+		hintLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		hintLabel.setBackground(new Color(220, 20, 60));
+		hintLabel.setBounds(843, 301, 115, 62);
+		getContentPane().add(hintLabel);
+
+
 
 	}
 
@@ -172,6 +195,10 @@ public class BJTable extends JFrame {
 
 	public static void dealCards() {
 
+		handsPlayed++;
+
+		usedHint = false;
+
 		player1.emptyHand();
 		dealer.emptyHand();
 
@@ -187,9 +214,9 @@ public class BJTable extends JFrame {
 
 		updateCardVisuals();
 
-		checkPlayerStatus();
-
 		gameStatusLbl.setText("Player Turn"); // Next instruction
+
+		hintLabel.setText("Click for help");
 
 		if (hitButton.getActionListeners().length < 1) {
 			// hitButton = new JButton("Hit"); // Hit button
@@ -214,11 +241,36 @@ public class BJTable extends JFrame {
 		frame.getContentPane().add(stayButton);
 		stayButton.requestFocus();
 		stayButton.setEnabled(true);
+
+		helpButton = new JButton("Help");
+		if (helpButton.getActionListeners().length < 1) {
+			helpButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					usedHint = true;
+					updateHelp();
+				}
+			});
+		}
+		helpButton.setBounds(843, 371, 115, 29);
+		frame.getContentPane().add(helpButton);
+
+		checkPlayerStatus();
+	}
+
+	public static void updateHelp() {
+
+		BJStrategy strategyGuide = new BJStrategy();
+
+		String action = strategyGuide.getAction(player1.getHand().hasAce(), player1.getHand().getHandSum(),
+				dealer.getHandSum());
+
+		hintLabel.setText(action);
+
+		frame.repaint();
+
 	}
 
 	public static void hit() {
-
-		System.out.println("Hit was called!");
 
 		player1.addCard(deck.dealNextCard());
 
@@ -228,14 +280,9 @@ public class BJTable extends JFrame {
 
 		checkPlayerStatus();
 
-
 	}
 
 	public static void stand() {
-
-		System.out.println("stand method: ");
-
-		System.out.println(dealer.getHands().toString(false));
 
 		// switch out the face down card with the hidden card in this class:
 		dealer.getHands().setCardInHand(dealerHiddenCard);
@@ -246,61 +293,76 @@ public class BJTable extends JFrame {
 
 		frame.repaint();
 
-		System.out.println(dealer.getHands().toString(false));
-
 		int playerScore = player1.getHand().getHandSum();
 
 		int dealerScore = dealer.getHandSum();
-
+		
+		GameResult result = null;
+		
 		// hit on soft 16
 		while (dealerScore < 17) {
 
-			System.out.println("(player is standing): Dealer Score: " + dealerScore);
-
 			dealer.addCard(deck.dealNextCard());
+
 			dealerScore = dealer.getHandSum();
+
 			updateCardVisuals();
+			
 		}
 
 		if (dealerScore > 21 && playerScore <= 21) {
-			gameStatusLbl.setText("Dealer busts, player wins!");
-			totalWins++;
-			winCountLabel.setText(String.valueOf(totalWins));
-			// return GameResult.PLAYER_WINS;
+			gameStatusLbl.setText("Dealer busts!");
 
-			System.out.println("Player won: wins = " + totalWins);
+			totalWins++;
+
+			winCountLabel.setText(String.valueOf(totalWins));
+
+			result = GameResult.PLAYER_WINS;
 
 		} else if (dealerScore == playerScore) {
 
 			gameStatusLbl.setText("Push!");
-			totalDraws++;
-			drawsCountlabel.setText(String.valueOf(totalDraws));
-			// return GameResult.PUSH;
 
-			System.out.println("TIE: ties = " + totalDraws);
+			totalDraws++;
+
+			drawsCountlabel.setText(String.valueOf(totalDraws));
+
+			result = GameResult.PUSH;
 
 		} else if (dealerScore > playerScore) {
-			totalLosses++;
-			gameStatusLbl.setText("Dealer beats player, dealer wins!");
-			lossesCount.setText(String.valueOf(totalLosses));
-			// return GameResult.DEALER_WINS;
 
-			System.out.println("LOSS:  = " + totalLosses);
+			totalLosses++;
+
+			gameStatusLbl.setText("Dealer beats player!");
+
+			lossesCount.setText(String.valueOf(totalLosses));
+
+			result = GameResult.DEALER_WINS;
+
 		} else if (playerScore > dealerScore && playerScore <= 21) {
 			totalWins++;
-			winCountLabel.setText(String.valueOf(totalWins));
-			gameStatusLbl.setText("Player beats dealer, player wins!");
-			// return GameResult.PLAYER_WINS;
 
-			System.out.println("Player won: wins = " + totalWins);
+			winCountLabel.setText(String.valueOf(totalWins));
+
+			gameStatusLbl.setText("Player beats dealer!");
+
+			result = GameResult.PLAYER_WINS;
 
 		} else {
-			// return GameResult.DEALER_WINS;
 			totalLosses++;
+
 			gameStatusLbl.setText("Dealer beats player");
+
 			lossesCount.setText(String.valueOf(totalLosses));
-			System.out.println("LOSS:  = " + totalLosses);
+
+			result = GameResult.DEALER_WINS;
 		}
+		
+		String row = CSVUtils.formatToCSVData(handsPlayed, player1.getHand().toString(false), playerScore,
+					dealer.getHands().toString(false), dealerScore,
+				usedHint, result);
+		
+		CSVUtils.toCSVOutput(fileLocation, row);
 
 		hitButton.setEnabled(false);
 
@@ -321,7 +383,7 @@ public class BJTable extends JFrame {
 
 		int dealerScore = dealer.getHandSum();
 
-		System.out.println("check player status: p1 score = " + playerScore);
+		GameResult result = null;
 
 		if (dealerScore == 21 && playerScore == 21) {
 
@@ -331,6 +393,7 @@ public class BJTable extends JFrame {
 
 			drawsCountlabel.setText(String.valueOf(totalDraws));
 
+			result = GameResult.PUSH;
 		}
 
 		if (dealerScore == 21) {
@@ -341,18 +404,19 @@ public class BJTable extends JFrame {
 
 			drawsCountlabel.setText(String.valueOf(totalDraws));
 
+			result = GameResult.DEALER_WINS;
 		}
 
 		if (playerScore == 21) {
 			// player hit blackjack:
 
+			gameStatusLbl.setText("Player hits blackjack!");
 
-				gameStatusLbl.setText("Player hits blackjack! Winner!");
+			totalWins++;
 
-				totalWins++;
+			winCountLabel.setText(String.valueOf(totalWins));
 
-				winCountLabel.setText(String.valueOf(totalWins));
-
+			result = GameResult.PLAYER_WINS;
 
 		} else if (playerScore > 21) {
 			// player busted
@@ -362,6 +426,8 @@ public class BJTable extends JFrame {
 			totalLosses++;
 
 			lossesCount.setText(String.valueOf(totalLosses));
+
+			result = GameResult.DEALER_WINS;
 		}
 
 		if (playerScore >= 21) {
@@ -373,6 +439,11 @@ public class BJTable extends JFrame {
 		}
 
 		frame.repaint();
+
+		String row = CSVUtils.formatToCSVData(handsPlayed, player1.getHand().toString(false), playerScore,
+				dealer.getHands().toString(false), dealerScore, usedHint, result);
+
+		CSVUtils.toCSVOutput(fileLocation, row);
 
 	}
 
