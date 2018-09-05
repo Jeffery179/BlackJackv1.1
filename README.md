@@ -1,10 +1,13 @@
-BlackJack Data Miner
+BlackJack Helper
 
-*this project is still a work in progress*
+This project is a simple blackjack game with a GUI. There is an option for the player to click for "help," which shows the player which move (standing or hitting) provides the more favorable outcome.
 
-The purpose of this project is to provide a user with their results from playing black jack. 
-The user will play the traditional game of black jack versus the dealer with standing/hitting as the only options and at the end of the game, the user will be able to view their wins, losses, and draws in CSV format. 
+The blackjack game:
 
-In addition, the user will see how they did with each hand and whether they "went by the book" or not and how they ended up doing.
+The dealer stands on soft 17. 
+The player only has the decision to stand or hit. There is no option for splitting or doubling-down.
+There is no betting, instead win, loss, and push totals will be kept.
 
+The implementation:
+The "book" for the blackjack game is stored in a 2D Array. 
 A GUI made with Java swing was created. Simple JButtons, JLabels, and JPanels were used to construct the GUI.
