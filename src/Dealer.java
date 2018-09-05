@@ -10,6 +10,7 @@ public class Dealer extends User {
 	public void giveNewHand(Card firstCard, Card secondCard) {
 
 		this.hand = new DealerHand(firstCard, secondCard, false);
+
 		setNumberOfHands(1);
 
 	}

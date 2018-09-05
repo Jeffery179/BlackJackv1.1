@@ -23,24 +23,24 @@ public class BJStrategy {
 				{}, // 1
 				{}, // 2
 				{}, // 3
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 4
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 5
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 6
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 7
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 8
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 9
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 10
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 11
-				{ true, true, true, true, false, false, false, true, true, true, true }, // 12
-				{ true, true, false, false, false, false, false, true, true, true, true }, // 13
-				{ true, true, false, false, false, false, false, true, true, true, true }, // 14
-				{ true, true, false, false, false, false, false, true, true, true, true }, // 15
-				{ true, true, false, false, false, false, false, true, true, true, true }, // 16
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 17
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 18
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 19
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 20
-				{ false, false, false, false, false, false, false, false, false, false, false } // 21
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 4
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 5
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 6
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 7
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 8
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 9
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 10
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 11
+				{ true, true, true, true, false, false, false, true, true, true, true, true }, // 12
+				{ true, true, false, false, false, false, false, true, true, true, true, true }, // 13
+				{ true, true, false, false, false, false, false, true, true, true, true, true }, // 14
+				{ true, true, false, false, false, false, false, true, true, true, true, true }, // 15
+				{ true, true, false, false, false, false, false, true, true, true, true, true }, // 16
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 17
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 18
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 19
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 20
+				{ false, false, false, false, false, false, false, false, false, false, false, false } // 21
 		};
 
 		// hold chart for soft hands, has ace
@@ -49,24 +49,24 @@ public class BJStrategy {
 				{}, // 1
 				{}, // 2
 				{}, // 3
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 4
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 5
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 6
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 7
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 8
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 9
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 10
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 11
-				{ true, true, true, true, false, false, false, true, true, true, true }, // 12
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 13
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 14
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 15
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 16
-				{ true, true, true, true, true, true, true, true, true, true, true }, // 17
-				{ false, true, false, false, false, false, false, false, false, true, true }, // 18
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 19
-				{ false, false, false, false, false, false, false, false, false, false, false }, // 20
-				{ false, false, false, false, false, false, false, false, false, false, false } // 21
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 4
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 5
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 6
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 7
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 8
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 9
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 10
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 11
+				{ true, true, true, true, false, false, false, true, true, true, true, true }, // 12
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 13
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 14
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 15
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 16
+				{ true, true, true, true, true, true, true, true, true, true, true, true }, // 17
+				{ false, true, false, false, false, false, false, false, false, true, true, false }, // 18
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 19
+				{ false, false, false, false, false, false, false, false, false, false, false, false }, // 20
+				{ false, false, false, false, false, false, false, false, false, false, false, false } // 21
 		};
 
 	}

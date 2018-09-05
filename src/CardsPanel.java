@@ -30,11 +30,10 @@ class CardsPanel extends JPanel {
 		handScoreLbl.setVerticalAlignment(SwingConstants.CENTER);
 		handScoreLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		handScoreLbl.setBounds(0, 0, 45, height);
+
 		add(handScoreLbl);
 
 		for (int i = 0; i < numCards; i++) {
-
-			System.out.println(hand.getCards()[i].getFileName());
 
 			ImagePanel cardImagesPanel = new ImagePanel(hand.getCards()[i].getFileName());
 

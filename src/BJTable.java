@@ -54,8 +54,6 @@ public class BJTable extends JFrame {
 
 	private static Card dealerHiddenCard = null;
 
-	public static CSVUtils csvUtils = new CSVUtils();
-
 	public static boolean usedHint = false;
 
 	public static String fileLocation = "";
@@ -100,14 +98,6 @@ public class BJTable extends JFrame {
 		stayButton = new JButton("Stand");
 		stayButton.setBounds(843, 211, 115, 29);
 		getContentPane().add(stayButton);
-
-		// splitButton = new JButton("Split");
-		// splitButton.setBounds(802, 428, 115, 29);
-		// getContentPane().add(splitButton);
-		//
-		// doubleDownButton = new JButton("Double");
-		// doubleDownButton.setBounds(825, 486, 115, 29);
-		// getContentPane().add(doubleDownButton);
 
 		winsLabel = new JLabel("Win");
 		winsLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -166,8 +156,6 @@ public class BJTable extends JFrame {
 		hintLabel.setBounds(843, 301, 115, 62);
 		getContentPane().add(hintLabel);
 
-
-
 	}
 
 	public static void startNewGame() {
@@ -177,7 +165,10 @@ public class BJTable extends JFrame {
 		deck = new Deck(7, true);
 
 		player1 = new Player("Player");
+
 		dealer = new Dealer("House");
+
+		dealCards();
 
 		dealCardsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -200,15 +191,14 @@ public class BJTable extends JFrame {
 		usedHint = false;
 
 		player1.emptyHand();
+
 		dealer.emptyHand();
 
 		player1.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
 		dealerHiddenCard = deck.dealNextCard();
-		System.out.println(dealerHiddenCard.toString());
 
 		dealer.giveNewHand(deck.dealNextCard(), new FaceDownCard());
-		// dealer.giveNewHand(deck.dealNextCard(), deck.dealNextCard());
 
 		dealCardsBtn.setEnabled(false);
 
@@ -228,7 +218,9 @@ public class BJTable extends JFrame {
 		}
 
 		frame.getContentPane().add(hitButton);
+
 		hitButton.requestFocus();
+
 		hitButton.setEnabled(true);
 
 		if (stayButton.getActionListeners().length < 1) {
@@ -238,11 +230,15 @@ public class BJTable extends JFrame {
 				}
 			});
 		}
+
 		frame.getContentPane().add(stayButton);
+
 		stayButton.requestFocus();
+
 		stayButton.setEnabled(true);
 
 		helpButton = new JButton("Help");
+
 		if (helpButton.getActionListeners().length < 1) {
 			helpButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -252,6 +248,7 @@ public class BJTable extends JFrame {
 			});
 		}
 		helpButton.setBounds(843, 371, 115, 29);
+
 		frame.getContentPane().add(helpButton);
 
 		checkPlayerStatus();
@@ -273,8 +270,6 @@ public class BJTable extends JFrame {
 	public static void hit() {
 
 		player1.addCard(deck.dealNextCard());
-
-		System.out.println(player1.getHand().toString(false));
 
 		updateCardVisuals();
 
@@ -357,12 +352,6 @@ public class BJTable extends JFrame {
 
 			result = GameResult.DEALER_WINS;
 		}
-		
-		String row = CSVUtils.formatToCSVData(handsPlayed, player1.getHand().toString(false), playerScore,
-					dealer.getHands().toString(false), dealerScore,
-				usedHint, result);
-		
-		CSVUtils.toCSVOutput(fileLocation, row);
 
 		hitButton.setEnabled(false);
 
@@ -383,8 +372,6 @@ public class BJTable extends JFrame {
 
 		int dealerScore = dealer.getHandSum();
 
-		GameResult result = null;
-
 		if (dealerScore == 21 && playerScore == 21) {
 
 			gameStatusLbl.setText("Push!");
@@ -393,7 +380,6 @@ public class BJTable extends JFrame {
 
 			drawsCountlabel.setText(String.valueOf(totalDraws));
 
-			result = GameResult.PUSH;
 		}
 
 		if (dealerScore == 21) {
@@ -404,7 +390,6 @@ public class BJTable extends JFrame {
 
 			drawsCountlabel.setText(String.valueOf(totalDraws));
 
-			result = GameResult.DEALER_WINS;
 		}
 
 		if (playerScore == 21) {
@@ -416,7 +401,6 @@ public class BJTable extends JFrame {
 
 			winCountLabel.setText(String.valueOf(totalWins));
 
-			result = GameResult.PLAYER_WINS;
 
 		} else if (playerScore > 21) {
 			// player busted
@@ -427,7 +411,6 @@ public class BJTable extends JFrame {
 
 			lossesCount.setText(String.valueOf(totalLosses));
 
-			result = GameResult.DEALER_WINS;
 		}
 
 		if (playerScore >= 21) {
@@ -440,17 +423,13 @@ public class BJTable extends JFrame {
 
 		frame.repaint();
 
-		String row = CSVUtils.formatToCSVData(handsPlayed, player1.getHand().toString(false), playerScore,
-				dealer.getHands().toString(false), dealerScore, usedHint, result);
-
-		CSVUtils.toCSVOutput(fileLocation, row);
-
 	}
 
 	public static void updateCardVisuals() {
 
 		if (dealerCardPanel != null) { // If they're already added, remove them
 			frame.getContentPane().remove(dealerCardPanel);
+
 			frame.getContentPane().remove(playerCardPanel);
 		}
 

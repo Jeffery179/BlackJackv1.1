@@ -10,16 +10,21 @@
 public class Card {
 	
 	private Suit cardSuit;
+
 	private int cardValue;
 	
 	public Card() {
+
 		this.cardSuit = null;
+
 		this.cardValue = 0;
+
 	}
 
 	public Card(Suit suit, int value) {
 		
 		this.cardSuit = suit;
+
 		this.cardValue = value;
 		
 	}
@@ -35,6 +40,7 @@ public class Card {
 	 * 
 	 */
 	public int getNumber() {
+
 		return this.cardValue;
 	}
 	
@@ -100,6 +106,6 @@ public class Card {
 	 * Returns the file name representing an image of this card.
 	 */
 	public String getFileName() {
-		return String.format("cardImages/%s%s.png", cardValue, cardSuit);
+		return String.format("../cardImages/%s%s.png", cardValue, cardSuit);
 	}
 }
