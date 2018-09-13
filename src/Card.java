@@ -106,6 +106,6 @@ public class Card {
 	 * Returns the file name representing an image of this card.
 	 */
 	public String getFileName() {
-		return String.format("../cardImages/%s%s.png", cardValue, cardSuit);
+		return String.format("/cardImages/%s%s.png", cardValue, cardSuit);
 	}
 }

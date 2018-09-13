@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -35,7 +36,13 @@ class CardsPanel extends JPanel {
 
 		for (int i = 0; i < numCards; i++) {
 
-			ImagePanel cardImagesPanel = new ImagePanel(hand.getCards()[i].getFileName());
+			String fileName = hand.getCards()[i].getFileName();
+
+			java.net.URL resourceURL = getClass().getResource(fileName);
+
+			ImageIcon logoOne = new ImageIcon(resourceURL);
+
+			ImagePanel cardImagesPanel = new ImagePanel(logoOne.getImage());
 
 			cardImagesPanel.setBounds(50 + i * (width + gap), 0, width, height);
 
